@@ -386,22 +386,14 @@ void HcaluLUTTPGCoder::update(const HcalDbService& conditions) {
 
   // Access TPParameters to get HF fine-grain thresholds
   const HcalTPParameters* tpparameters = conditions.getHcalTPParameters();
+  unsigned fg_hf_lo = tpparameters->getHFFGThresholdLow();
+  unsigned fg_hf_hi = tpparameters->getHFFGThresholdHigh();
 
-  // Read thresholds from auxi1 field
-  // aux1: 32-bit auxiliary word. Currently, only the low 16 bits are used (HF MinBias FG thresholds). The high 16 bits are reserved for future use.
-  const uint32_t aux1 = tpparameters->getAuxi1();
-  unsigned fg_hf_lo, fg_hf_hi;
-
-  // The first 16 bits of auxi1 are empty OR the switch is open: Read from configuration parameters
-  const bool zerothresFGHF = (aux1 & 0xFFFFu) == 0u;
+  // Both thresholds are empty OR the switch is open: Read from configuration parameters
+  const bool zerothresFGHF = ((fg_hf_lo | fg_hf_hi) == 0u);
   if (overrideFGHF_ || zerothresFGHF) {
     fg_hf_lo = FG_HF_thresholds_[0];
     fg_hf_hi = FG_HF_thresholds_[1];
-  } else {
-    // First 8-bits: low threshold
-    // Second 8-bits: high threshold
-    fg_hf_lo = aux1 & 0xFFu;
-    fg_hf_hi = (aux1 >> 8) & 0xFFu;
   }
 
   // Sanity check: low less than high

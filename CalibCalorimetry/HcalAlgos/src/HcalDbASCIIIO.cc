@@ -2362,7 +2362,7 @@ bool HcalDbASCIIIO::getObject(std::istream& fInput, HcalTPParameters* fObject) {
     int adcCut = atoi(items[1].c_str());
     uint64_t tdcMask = strtoull(items[2].c_str(), nullptr, 16);
     uint32_t tbits = atoi(items[3].c_str());
-    int auxi1 = atoi(items[4].c_str());
+    uint32_t auxi1 = atoi(items[4].c_str());
     int auxi2 = atoi(items[5].c_str());
     fObject->loadObject(version, adcCut, tdcMask, tbits, auxi1, auxi2);
     break;
@@ -2382,7 +2382,7 @@ bool HcalDbASCIIIO::dumpObject(std::ostream& fOutput, const HcalTPParameters& fO
   const int adcCut = fObject.getADCThresholdHF();
   const uint64_t tdcMask = fObject.getTDCMaskHF();
   const uint32_t tbits = fObject.getHFTriggerInfo();
-  const int auxi1 = fObject.getAuxi1();
+  const uint32_t auxi1 = fObject.getAuxi1();
   const int auxi2 = fObject.getAuxi2();
 
   sprintf(buffer, " %15d %15d  %16jx %15x %15d %15d\n", version, adcCut, tdcMask, tbits, auxi1, auxi2);

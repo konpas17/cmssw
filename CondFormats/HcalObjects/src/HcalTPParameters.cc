@@ -9,7 +9,7 @@ HcalTPParameters::HcalTPParameters() : version_(0), adcCut_(0), tdcMask_(0), tbi
 
 HcalTPParameters::~HcalTPParameters() {}
 
-void HcalTPParameters::loadObject(int version, int adcCut, uint64_t tdcMask, uint32_t tbits, int auxi1, int auxi2) {
+void HcalTPParameters::loadObject(int version, int adcCut, uint64_t tdcMask, uint32_t tbits, uint32_t auxi1, int auxi2) {
   version_ = version;
   adcCut_ = adcCut;
   tdcMask_ = tdcMask;
